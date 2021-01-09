@@ -28,16 +28,16 @@ aws iam create-user --user-name 'terraform-user'
 
 Grant access (attach required policies) to the user:
 ```
-aws iam attach-user-policy \\
-    --user-name 'terraform-user' \\ 
+aws iam attach-user-policy \
+    --user-name 'terraform-user' \
     --policy-arn 'arn:aws:iam::aws:policy/IAMFullAccess'
     
-aws iam attach-user-policy \\
-    --user-name 'terraform-user' \\
+aws iam attach-user-policy \
+    --user-name 'terraform-user' \
     --policy-arn 'arn:aws:iam::aws:policy/AmazonRedshiftFullAccess'
     
-aws iam attach-user-policy \\
-    --user-name 'terraform-user' \\
+aws iam attach-user-policy \
+    --user-name 'terraform-user' \
     --policy-arn 'arn:aws:iam::aws:policy/AmazonVPCFullAccess'
 ```
 
