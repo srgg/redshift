@@ -1,3 +1,6 @@
+// https://stackoverflow.com/questions/59959363/terraform-template-for-aws-route-table
+// https://github.com/PaloAltoNetworks/terraform-templates/blob/master/sample/deploy_vpc.tf
+
 variable "aws_region" { }
 
 variable "rs_cluster_identifier" { }
@@ -40,6 +43,12 @@ resource "aws_internet_gateway" "redshift_vpc_gw" {
   depends_on = [
     aws_vpc.redshift_vpc
   ]
+}
+
+resource "aws_route" "redshift_route" {
+  route_table_id = aws_vpc.redshift_vpc.main_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.redshift_vpc_gw.id
 }
 
 resource "aws_subnet" "redshift_subnet_1" {
@@ -158,6 +167,7 @@ resource "aws_redshift_cluster" "default" {
     aws_vpc.redshift_vpc,
     aws_default_security_group.redshift_security_group,
     aws_redshift_subnet_group.redshift_subnet_group,
-    aws_iam_role.redshift_role
+    aws_iam_role.redshift_role,
+    aws_route.redshift_route
   ]
 }
